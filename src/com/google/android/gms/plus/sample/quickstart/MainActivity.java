@@ -14,7 +14,19 @@
 
 package com.google.android.gms.plus.sample.quickstart;
 
-import java.util.ArrayList;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.plus.People;
+import com.google.android.gms.plus.People.LoadPeopleResult;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
+import com.google.android.gms.plus.model.people.PersonBuffer;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -31,19 +43,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.CommonStatusCodes;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.plus.People;
-import com.google.android.gms.plus.People.LoadPeopleResult;
-import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
-import com.google.android.gms.plus.model.people.PersonBuffer;
+import java.util.ArrayList;
 
 /**
  * Android Google+ Quickstart activity.
@@ -294,25 +294,26 @@ public class MainActivity extends FragmentActivity implements
   }
   
   @Override
-  protected void onActivityResult(int requestCode,int resultCode, Intent data) {
+  protected void onActivityResult(int requestCode, int resultCode,
+      Intent data) {
     switch (requestCode) {
-        case RC_SIGN_IN:
-          if (resultCode == RESULT_OK) {
-            // If the error resolution was successful we should continue
-            // processing errors.
-            mSignInProgress = STATE_SIGN_IN;
-          } else {
-            // If the error resolution was not successful or the user canceled,
-            // we should stop processing errors.
-            mSignInProgress = STATE_DEFAULT;
-          }
-          
-          if (!mGoogleApiClient.isConnecting()) {
-            // If Google Play services resolved the issue with a dialog then
-            // onStart is not called so we need to re-attempt connection here.
-            mGoogleApiClient.connect();
-          }
-          break;
+      case RC_SIGN_IN:
+        if (resultCode == RESULT_OK) {
+          // If the error resolution was successful we should continue
+          // processing errors.
+          mSignInProgress = STATE_SIGN_IN;
+        } else {
+          // If the error resolution was not successful or the user canceled,
+          // we should stop processing errors.
+          mSignInProgress = STATE_DEFAULT;
+        }
+        
+        if (!mGoogleApiClient.isConnecting()) {
+          // If Google Play services resolved the issue with a dialog then
+          // onStart is not called so we need to re-attempt connection here.
+          mGoogleApiClient.connect();
+        }
+        break;
     }
   }
     
@@ -359,38 +360,36 @@ public class MainActivity extends FragmentActivity implements
   @Override
   protected Dialog onCreateDialog(int id) {
     switch(id) {
-    case DIALOG_PLAY_SERVICES_ERROR:
-      if (GooglePlayServicesUtil
-          .isUserRecoverableError(mSignInError)) {
-        return GooglePlayServicesUtil.getErrorDialog(
-            mSignInError,
-            this,
-            RC_SIGN_IN, 
-            new DialogInterface.OnCancelListener() {
-              @Override
-              public void onCancel(DialogInterface dialog) {
-                Log.e(TAG, "Google Play services resolution cancelled");
-                mSignInProgress = STATE_DEFAULT;
-                mStatus.setText(R.string.status_signed_out);
-              }
-            });
-      } else {
-        return new AlertDialog.Builder(this)
-            .setMessage(R.string.play_services_error)
-            .setPositiveButton(R.string.close,
-                new DialogInterface.OnClickListener() {
-                  @Override
-                  public void onClick(DialogInterface dialog, int which) {
-                    Log.e(TAG, "Google Play services error could not be "
-                        + "resolved: " + mSignInError);
-                    mSignInProgress = STATE_DEFAULT;
-                    mStatus.setText(R.string.status_signed_out);
-                  }
-                }).create();
-      }
-    default:
-      return super.onCreateDialog(id);
+      case DIALOG_PLAY_SERVICES_ERROR:
+        if (GooglePlayServicesUtil.isUserRecoverableError(mSignInError)) {
+          return GooglePlayServicesUtil.getErrorDialog(
+              mSignInError,
+              this,
+              RC_SIGN_IN, 
+              new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                  Log.e(TAG, "Google Play services resolution cancelled");
+                  mSignInProgress = STATE_DEFAULT;
+                  mStatus.setText(R.string.status_signed_out);
+                }
+              });
+        } else {
+          return new AlertDialog.Builder(this)
+              .setMessage(R.string.play_services_error)
+              .setPositiveButton(R.string.close,
+                  new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                      Log.e(TAG, "Google Play services error could not be "
+                          + "resolved: " + mSignInError);
+                      mSignInProgress = STATE_DEFAULT;
+                      mStatus.setText(R.string.status_signed_out);
+                    }
+                  }).create();
+        }
+      default:
+        return super.onCreateDialog(id);
     }
   }
-  
 }
