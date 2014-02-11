@@ -75,7 +75,7 @@ public class MainActivity extends FragmentActivity implements
   // mSignInProgress can be one of three values:
   //
   //       STATE_DEFAULT: The default state of the application before the user
-  //                      has clicked 'sign in;, or after they have clicked
+  //                      has clicked 'sign in', or after they have clicked
   //                      'sign out'.  In this state we will not attempt to
   //                      resolve sign in errors and so will display our
   //                      Activity in a signed out state.
@@ -187,6 +187,10 @@ public class MainActivity extends FragmentActivity implements
             // After we revoke permissions for the user with a GoogleApiClient
             // instance, we must discard it and create a new one.
             Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+            // Our sample has caches no user data from Google+, however we
+            // would normally register a callback on revokeAccessAndDisconnect
+            // to delete user data so that we comply with Google developer
+            // policies.
             Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient);
             mGoogleApiClient = buildGoogleApiClient();
             mGoogleApiClient.connect();
