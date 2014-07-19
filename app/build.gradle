@@ -1,24 +1,26 @@
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:0.7+'
-    }
-}
+android {
+    compileSdkVersion 20
+    buildToolsVersion "20.0.0"
 
-repositories {
-    mavenCentral()
+    defaultConfig {
+        applicationId "com.google.android.gms.plus.sample.quickstart"
+        minSdkVersion 9
+        targetSdkVersion 20
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:+'
-    compile 'com.google.android.gms:play-services:4.3.23+'
-}
-
-android {
-    compileSdkVersion 19
-    buildToolsVersion "19.0.1"
+    //noinspection GradleDependency
+    compile 'com.android.support:support-v4:20.+'
+    compile 'com.google.android.gms:play-services:5.0.77+'
 }
