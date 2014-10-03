@@ -240,19 +240,24 @@ public class MainActivity extends FragmentActivity implements
     Log.i(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = "
         + result.getErrorCode());
 
-    if (mSignInProgress != STATE_IN_PROGRESS) {
-      // We do not have an intent in progress so we should store the latest
-      // error resolution intent for use when the sign in button is clicked.
-      mSignInIntent = result.getResolution();
-      mSignInError = result.getErrorCode();
+      if (result.getErrorCode() == ConnectionResult.API_UNAVAILABLE) {
+          // An API requested for GoogleApiClient is not available. The device's current
+          // configuration might not be supported with the requested API or a required component
+          // may not be installed, such as the Android Wear application. You may need to use a
+          // second GoogleApiClient to manage the application's optional APIs.
+      } else if (mSignInProgress != STATE_IN_PROGRESS) {
+          // We do not have an intent in progress so we should store the latest
+          // error resolution intent for use when the sign in button is clicked.
+          mSignInIntent = result.getResolution();
+          mSignInError = result.getErrorCode();
 
-      if (mSignInProgress == STATE_SIGN_IN) {
-        // STATE_SIGN_IN indicates the user already clicked the sign in button
-        // so we should continue processing errors until the user is signed in
-        // or they click cancel.
-        resolveSignInError();
+          if (mSignInProgress == STATE_SIGN_IN) {
+              // STATE_SIGN_IN indicates the user already clicked the sign in button
+              // so we should continue processing errors until the user is signed in
+              // or they click cancel.
+              resolveSignInError();
+          }
       }
-    }
 
     // In this sample we consider the user signed out whenever they do not have
     // a connection to Google Play services.
