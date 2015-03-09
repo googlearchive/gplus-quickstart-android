@@ -1,4 +1,4 @@
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 buildscript {
     repositories {
@@ -15,10 +15,10 @@ repositories {
 
 dependencies {
     compile 'com.android.support:support-v4:21.0.3'
-    compile 'com.google.android.gms:play-services:7.0.86'
+    compile 'com.google.android.gms:play-services:7.0.92'
 }
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+    buildToolsVersion "21.1.2"
 }
