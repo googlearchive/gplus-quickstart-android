@@ -15,7 +15,7 @@ repositories {
 
 dependencies {
     compile 'com.android.support:support-v4:21.0.3'
-    compile 'com.google.android.gms:play-services:7.0.92'
+    compile 'com.google.android.gms:play-services:7.0.0'
 }
 
 android {
