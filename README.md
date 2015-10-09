@@ -1,9 +1,9 @@
 # gplus-quickstart-android
-Sample application demonstrating the following features:
+This repository has been deprecated, the preferred sample for Google
+Sign-In on Android is now located at:
 
-  * Google+ Sign-In
-  * Retrieving server auth code for offline access
-  * Listing people that a user has circled
+https://github.com/googlesamples/google-services
 
-For more information on how to build and run this sample, see
-[the quickstart documentation here](https://developers.google.com/+/quickstart/android).
+For more information, visit:
+
+https://developers.google.com/+/mobile/android/getting-started
